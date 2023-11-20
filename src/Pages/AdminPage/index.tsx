@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect,FormEvent } from "react";
 import GlobalStyles from '../../GlobalStyles/GlobalStyles'
 
 import {
@@ -18,14 +18,38 @@ import {
 } from "./styles";
 import Navbar from "../../Components/Navbar";
 import React from 'react';
+import { api } from "../../Services/services";
+
+interface EquipmentsProps {
+  id:string;
+  name:string;
+  status: string;
+}
 
 export const AdminPage: React.FC = () => {
-  const [change, setChange] = useState(true);  
+  const [change, setChange] = useState(true);
   const [equipments, setEquipments] = useState("");
-  const [situation, setSituation] = useState({});
-  const [equipmentsModal, setEquipmentsModal] = useState([]);
-  const [message, setMessage] = useState("");
-  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("");
+  const [equipmentsModal, setEquipmentsModal] = useState<EquipmentsProps[]>([]);
+
+  useEffect(() => {
+    loadEquipments()
+  },[])
+
+  async function loadEquipments() {
+      const response = await api.get("/allequipments")
+      setEquipmentsModal(response.data)
+  }
+
+  async function handleSubmit(event:FormEvent) {
+    event.preventDefault();
+
+    const response = await api.post("/equipments", {
+      name: equipments,
+      status: status
+    })
+    setEquipmentsModal(allEquipments => [...allEquipments,response.data])
+  }
 
   const handleChange = () =>{
     setChange(change => !change)
@@ -46,12 +70,9 @@ export const AdminPage: React.FC = () => {
       </LabelChecked>
         { change == true ? 
         <ContainerForm>
-          <Form >
+          <Form onSubmit={handleSubmit}>
             <Field>
               <Label>Equipamentos</Label>
-              {equipments.length < 45 
-              ? 
-              (<>
               <InputText
                 type="text"
                 name="equipments"
@@ -60,25 +81,6 @@ export const AdminPage: React.FC = () => {
                 onChange={(e) => setEquipments(e.target.value)}
                 required
               />
-              </>) 
-              : 
-              (<>
-              <InputText
-                type="text"
-                name="equipments"
-                id="equipments"
-                value={equipments}
-                onChange={(e) => setEquipments(e.target.value)}
-                required
-                style={{
-                height: "100vh", 
-                maxHeight: "40px",
-                width:"100%",
-                maxWidth:"80%"
-              }}
-              />
-              
-              </>)}
             </Field>
             <Field>
               <Label>Situação</Label>
@@ -91,8 +93,8 @@ export const AdminPage: React.FC = () => {
                     type="checkbox"
                     value="Liberado"
                     id="1"
-                    checked={situation === "Liberado"}
-                    onChange={(e) => setSituation(e.target.value)}
+                    checked={status === "Liberado"}
+                    onChange={(e) => setStatus(e.target.value)}
                   />
                   <label htmlFor="1">Liberado</label>
                 </div>
@@ -102,8 +104,8 @@ export const AdminPage: React.FC = () => {
                     type="checkbox"
                     value="em-liberação"
                     id="2"
-                    checked={situation === "em-liberação"}
-                    onChange={(e) => setSituation(e.target.value)}
+                    checked={status === "em-liberação"}
+                    onChange={(e) => setStatus(e.target.value)}
                   />
                   <label htmlFor="2">Em Liberação</label>
                 </div>
@@ -113,8 +115,8 @@ export const AdminPage: React.FC = () => {
                     type="checkbox"
                     value="não-liberado"
                     id="3"
-                    checked={situation === "não-liberado"}
-                    onChange={(e) => setSituation(e.target.value)}
+                    checked={status === "não-liberado"}
+                    onChange={(e) => setStatus(e.target.value)}
                   />
                   <label htmlFor="3">Não Liberado</label>
                 </div>
@@ -124,8 +126,8 @@ export const AdminPage: React.FC = () => {
                     type="checkbox"
                     value="reserva"
                     id="4"
-                    checked={situation === "reserva"}
-                    onChange={(e) => setSituation(e.target.value)}
+                    checked={status === "reserva"}
+                    onChange={(e) => setStatus(e.target.value)}
                   />
                   <label htmlFor="4">Reserva</label>
                 </div>
@@ -135,8 +137,8 @@ export const AdminPage: React.FC = () => {
                     type="checkbox"
                     value="proximo-dia"
                     id="5"
-                    checked={situation === "proximo-dia"}
-                    onChange={(e) => setSituation(e.target.value)}
+                    checked={status === "proximo-dia"}
+                    onChange={(e) => setStatus(e.target.value)}
                   />
                   <label htmlFor="5">Proximo Dia</label>
                 </div>
@@ -147,8 +149,8 @@ export const AdminPage: React.FC = () => {
                     type="checkbox"
                     value="data"
                     id="6"
-                    checked={situation === "data"}
-                    onChange={(e) => setSituation(e.target.value)}
+                    checked={status === "data"}
+                    onChange={(e) => setStatus(e.target.value)}
                   />
                   <label htmlFor="6">Data</label>
                 </div>
@@ -158,8 +160,8 @@ export const AdminPage: React.FC = () => {
                     type="checkbox"
                     value="Apoio"
                     id="7"
-                    checked={situation === "Apoio"}
-                    onChange={(e) => setSituation(e.target.value)}
+                    checked={status === "Apoio"}
+                    onChange={(e) => setStatus(e.target.value)}
                   />
                   <label htmlFor="7">Apoio</label>
                 </div>
@@ -173,10 +175,10 @@ export const AdminPage: React.FC = () => {
           </Form>
           {equipmentsModal.length > 0 ? (
             <ModalSection>
-              <div className="modal-div">
-                {equipmentsModal.map((item, index) => {
-                  const toggleColor = (item) => {
-                    switch(item.situation){
+              <article className="modal-div">
+                {equipmentsModal.map((item) => {
+                  const toggleColor = (item: EquipmentsProps) => {
+                    switch(item.status){
                       case"Liberado": return "green";
                       case "em-liberação": return "yellow";
                       case "não-liberado": return "red";
@@ -187,16 +189,16 @@ export const AdminPage: React.FC = () => {
                   return(
                     <>
                       <div 
-                      key={index}
+                      key={item.id}
                       style={{borderColor: toggleColor(item)}}
                       >
-                        <p></p>
+                        <p>{item.name}</p>
                         <button>X</button>
                       </div>
                     </>
                   )
                 })}
-              </div>
+              </article>
             </ModalSection>
           ) : (
             <></>
@@ -208,8 +210,6 @@ export const AdminPage: React.FC = () => {
               <Label>Email</Label>
               <InputText
                 type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
                 disabled
                 required
                 placeholder="Não funcional, fase de testes"
@@ -219,8 +219,6 @@ export const AdminPage: React.FC = () => {
               <Label>Mensagem</Label> 
               <PreviewMessage>
                 <InputText 
-                onChange={(e) => setMessage(e.target.value)}
-                value={message}
                 placeholder="Não funcional, fase de testes"
                 disabled
                 style={{

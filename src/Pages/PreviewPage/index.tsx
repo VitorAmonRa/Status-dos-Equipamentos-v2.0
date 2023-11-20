@@ -1,16 +1,45 @@
 
 import { Burguer } from '../../Components/Burguer';
+import { api } from '../../Services/services';
 import {Image, SectionOne, SectionTwo, SituationOfEquipments, BackupOfEquipments, Title, EquipmentsList,SectionThree,Main, SupportEquipaments,Footer} from './styles';
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
+interface EquipmentsProps {
+  id:string;
+  name:string;
+  status: string;
+}
 
 export const PreviewPage: React.FC = () => {
+  const [equipments, setEquipments] = useState<EquipmentsProps[]>([]);
   
+  
+  useEffect(() => {
+    async function loadEquipments() {
+      const response = await api.get("/allequipments")
+      setEquipments(response.data)
+  }
+    loadEquipments()
+  },[])
+
+  const equipamentoLiberado = equipments.filter(equipments => equipments.status == "Liberado")
+
+  const equipamentosNãoLiberados = equipments.filter(equipments => equipments.status == "não-liberado")
+  
+  const equipamentosEmLiberação = equipments.filter(equipments => equipments.status == "em-liberação")
+ 
+  const equipamentosReservas = equipments.filter(equipments => equipments.status == "reserva")
+  
+  const equipamentosProximoDia = equipments.filter(equipments => equipments.status == "proximo-dia")
+  
+  const equipamentosDateTime = equipments.filter(equipments => equipments.status == "data")
+
+  const equipamentosDeApoio = equipments.filter(equipments => equipments.status == "Apoio")
+
   return (
     <>
     <Image>
       <Main> 
-        <Burguer/>
+     {/*    <Burguer/> */}
         <SectionOne>
           <SituationOfEquipments style={{
                 borderColor:"green"
@@ -19,7 +48,13 @@ export const PreviewPage: React.FC = () => {
               <h1>Liberados</h1>
             </Title>
             <EquipmentsList>
-              {/* //MAP  */}
+            {equipamentoLiberado.map((item,index) => (
+                 <>  
+                  <li key={index}>
+                    {item.name}
+                  </li>
+                 </>
+              ))}
             </EquipmentsList>
           </SituationOfEquipments>
 
@@ -30,7 +65,13 @@ export const PreviewPage: React.FC = () => {
               }}> Equipamentos de Apoio </h1> 
             </Title>
             <EquipmentsList>
-            {/* MAP */}
+            {equipamentosDeApoio.map((item,index) => (
+                 <>  
+                  <li key={index}>
+                    {item.name}
+                  </li>
+                 </>
+              ))}
             </EquipmentsList>
 
           </SupportEquipaments>
@@ -45,7 +86,13 @@ export const PreviewPage: React.FC = () => {
               <h1>Em Liberação</h1>
             </Title>
             <EquipmentsList>
-             
+            {equipamentosEmLiberação.map((item,index) => (
+                 <>  
+                  <li key={index}>
+                    {item.name}
+                  </li>
+                 </>
+              ))}
             </EquipmentsList>
           </SituationOfEquipments>
            
@@ -54,17 +101,37 @@ export const PreviewPage: React.FC = () => {
               <h1>Spreader's Reservas</h1>
               </Title>
             <EquipmentsList >
-            
+            {equipamentosReservas.map((item,index) => (
+                 <>  
+                  <li key={index}>
+                    <p>{item.name}</p>
+                  </li>
+                 </>
+              ))}
             </EquipmentsList>
           </BackupOfEquipments> 
 
            <BackupOfEquipments>
             <Title>
               <h1>Programação do Dia &rarr; </h1>
-             
+              {equipamentosDateTime.map((item,index) => (
+                 <> 
+                 <div key={index}>
+                    <span>{item.name}</span>
+                 </div>
+                 </>
+              ))}
             </Title>
             <EquipmentsList>
-               
+            {equipamentosProximoDia.map((item,index) => (
+                 <> 
+                 <div>
+                  <li key={index}>
+                    <p>{item.name}</p>
+                  </li>
+                 </div>
+                 </>
+              ))}
             </EquipmentsList>
           </BackupOfEquipments> 
         </SectionTwo>
@@ -77,7 +144,13 @@ export const PreviewPage: React.FC = () => {
               <h1>Não Liberados</h1>
             </Title>
             <EquipmentsList>
-            
+            {equipamentosNãoLiberados.map((item,index) => (
+                 <>  
+                  <li key={index}>
+                    {item.name}
+                  </li>
+                 </>
+              ))}
             </EquipmentsList>
           </SituationOfEquipments>
         </SectionThree>

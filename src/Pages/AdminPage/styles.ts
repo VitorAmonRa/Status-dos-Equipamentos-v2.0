@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 export const Container = styled.div`
   max-width: 100%;
@@ -205,14 +205,12 @@ export const ModalSection = styled.section`
       button{
         font-weight:bold;
         border:2px solid black;
-        padding:6px;
-        cursor: pointer;
         padding: 5px;
         margin: 0 8px;
+        cursor: pointer;
       }
     }
   }:hover{
-
     max-height:700px;
     max-width:1000px;
     position:absolute;
