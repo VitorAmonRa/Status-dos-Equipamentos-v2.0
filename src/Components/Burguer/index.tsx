@@ -1,7 +1,7 @@
 import { IconDiv } from './styles';
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { useState } from 'react';
-import { SideBar } from '../../Components/SideBar'
+import { SideBar } from '../Sidebar/index'
 
 import React from 'react';
 

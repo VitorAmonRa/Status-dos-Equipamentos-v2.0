@@ -1,4 +1,4 @@
-import { useState,useEffect,FormEvent } from "react";
+import { useState,useEffect,FormEvent} from "react";
 import GlobalStyles from '../../GlobalStyles/GlobalStyles'
 
 import {
@@ -20,7 +20,7 @@ import Navbar from "../../Components/Navbar";
 import React from 'react';
 import { api } from "../../Services/services";
 
-interface EquipmentsProps {
+export interface EquipmentsProps {
   id:string;
   name:string;
   status: string;
@@ -32,13 +32,14 @@ export const AdminPage: React.FC = () => {
   const [status, setStatus] = useState("");
   const [equipmentsModal, setEquipmentsModal] = useState<EquipmentsProps[]>([]);
 
-  useEffect(() => {
-    loadEquipments()
+ useEffect(() => {
+   loadEquipments()
   },[])
 
+ 
   async function loadEquipments() {
-      const response = await api.get("/allequipments")
-      setEquipmentsModal(response.data)
+    const response = await api.get("/allequipments")     
+    setEquipmentsModal(response.data)
   }
 
   async function handleSubmit(event:FormEvent) {
@@ -49,6 +50,22 @@ export const AdminPage: React.FC = () => {
       status: status
     })
     setEquipmentsModal(allEquipments => [...allEquipments,response.data])
+  }
+
+  async function handleDelete(id : string) {
+    try {
+      await api.delete("/equipment", {
+        params:{
+          id:id
+        }
+      })
+
+      const allEquipments = equipmentsModal.filter((equipments) => equipments.id !== id)
+      setEquipmentsModal(allEquipments)
+      
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleChange = () =>{
@@ -175,7 +192,7 @@ export const AdminPage: React.FC = () => {
           </Form>
           {equipmentsModal.length > 0 ? (
             <ModalSection>
-              <article className="modal-div">
+              <article className="modal-article">
                 {equipmentsModal.map((item) => {
                   const toggleColor = (item: EquipmentsProps) => {
                     switch(item.status){
@@ -188,13 +205,13 @@ export const AdminPage: React.FC = () => {
                   }
                   return(
                     <>
-                      <div 
+                      <section 
                       key={item.id}
                       style={{borderColor: toggleColor(item)}}
                       >
                         <p>{item.name}</p>
-                        <button>X</button>
-                      </div>
+                        <button onClick={() => handleDelete(item.id)}>X</button>
+                      </section>
                     </>
                   )
                 })}

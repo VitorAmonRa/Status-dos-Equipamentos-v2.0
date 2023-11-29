@@ -6,7 +6,7 @@ export const Container = styled.div`
   width: 100%;
   height: 100vh;
   background-color: #D5D5D5;
-  
+
 `;
 export const ButtonEmail = styled.span`
   display:flex;
@@ -167,19 +167,20 @@ export const ModalSection = styled.section`
   max-width:800px;
   max-height:200px;
   width:100%;
-  height: 100vh;
+  height: 100dvh;
   padding: 10px;
   margin: 18px 0;
   border: 2px solid black;
   border-radius: 5px;
   background-color: black;
-  .modal-div{
+  .modal-article{
     width:100%;
-    height: 100vh;
+    height: 100dvh;
     max-height: 200px;
     color:#fff;
     overflow-y: scroll;
-    ::-webkit-scrollbar-thumb{
+    background-color: black;
+    /* ::-webkit-scrollbar-thumb{
         background-color: red;
         border: 2px solid black;
         cursor:pointer;
@@ -189,8 +190,8 @@ export const ModalSection = styled.section`
         background-color:#fff;
         color:black;
         cursor:pointer;
-      }
-      div{
+      } */
+      section{
       display: flex;
       justify-content: space-between;
       align-items:center;
@@ -214,8 +215,10 @@ export const ModalSection = styled.section`
     max-height:700px;
     max-width:1000px;
     position:absolute;
+    top: -0.8%;
     transition: linear;
-    .modal-div{
+
+    .modal-article{
       max-height:90vh;
       transition: max-height 1s linear;
       button{

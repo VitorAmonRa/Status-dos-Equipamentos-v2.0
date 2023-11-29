@@ -1,8 +1,7 @@
-
-import { Burguer } from '../../Components/Burguer';
+/* import { Burguer } from '../../Components/Burguer/index'; */
 import { api } from '../../Services/services';
 import {Image, SectionOne, SectionTwo, SituationOfEquipments, BackupOfEquipments, Title, EquipmentsList,SectionThree,Main, SupportEquipaments,Footer} from './styles';
-import React, { useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 interface EquipmentsProps {
   id:string;
   name:string;
@@ -12,14 +11,13 @@ interface EquipmentsProps {
 export const PreviewPage: React.FC = () => {
   const [equipments, setEquipments] = useState<EquipmentsProps[]>([]);
   
-  
   useEffect(() => {
     async function loadEquipments() {
       const response = await api.get("/allequipments")
       setEquipments(response.data)
   }
     loadEquipments()
-  },[])
+  },[equipments])
 
   const equipamentoLiberado = equipments.filter(equipments => equipments.status == "Liberado")
 
@@ -163,8 +161,3 @@ export const PreviewPage: React.FC = () => {
   );
 
 }
-
-
-export default PreviewPage;
-
-
