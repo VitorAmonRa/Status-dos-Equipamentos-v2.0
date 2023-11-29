@@ -1,3 +1,4 @@
+
 import { createContext} from "react";
 
 
@@ -14,5 +15,4 @@ const ApiProvider = ({children}: {children: React.ReactNode}) => {
         </ApiContext.Provider>
     )
 }
-
 export { ApiProvider,ApiContext}

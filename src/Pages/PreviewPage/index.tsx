@@ -1,3 +1,4 @@
+
 /* import { Burguer } from '../../Components/Burguer/index'; */
 import { api } from '../../Services/services';
 import {Image, SectionOne, SectionTwo, SituationOfEquipments, BackupOfEquipments, Title, EquipmentsList,SectionThree,Main, SupportEquipaments,Footer} from './styles';

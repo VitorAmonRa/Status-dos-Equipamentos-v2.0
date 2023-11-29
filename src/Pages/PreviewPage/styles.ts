@@ -1,3 +1,4 @@
+
 import styled from "styled-components";
 import imagemDois from "../../Images/imagemDois.jpg";
 
@@ -235,5 +236,4 @@ export const Footer = styled.footer`
       font-size:18px;
       letter-spacing:1px;
     }
-
 `;
