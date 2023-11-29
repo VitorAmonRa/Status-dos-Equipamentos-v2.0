@@ -1,3 +1,4 @@
+
 import { IconDiv } from './styles';
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { useState } from 'react';
@@ -16,6 +17,9 @@ export const Burguer: React.FC = () => {
           </button>
         </IconDiv>
         <SideBar/>
+        
+
+        
     </>
   )
 }

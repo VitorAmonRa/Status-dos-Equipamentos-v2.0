@@ -1,6 +1,9 @@
+
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.main`
+  justify-content:center;
+  align-items:center;
   max-width: 100%;
   min-height:100vh;
   width: 100%;
@@ -33,7 +36,7 @@ export const ContainerForm = styled.div`
   height:100vh;
   max-height:700px;
   border: 3px solid black;
-  border-radius: 10px;
+  border-radius: 20px;
   top: 45%;
   left: 50%;
   transform:translate(-50%,-50%);
@@ -51,10 +54,6 @@ export const Form = styled.form`
     padding: 20px 0 ;
     width:100%;
     height:100vh;
-  @media (max-width:1920px) {
-    max-width:850px;
-  
-  }
 `;
 export const Field = styled.div`
     display:flex;
@@ -63,16 +62,12 @@ export const Field = styled.div`
     align-items:center;
     padding: 18px 0 40px 0;
     margin: 18px 0;
-    border: 2px solid black;
-    border-radius: 5px;
+    border-radius: 20px;
 `;
 export const Label = styled.label`
   font-size: 22px;
   font-weight: bold;
-  padding: 5px;
-  @media (max-width:1920px) {
-    font-size: 20px;
-  }
+  margin: 10px;
 `;
 export const InputText = styled.input` 
   font-size: 15px;
@@ -99,12 +94,11 @@ export const Select = styled.div`
   width:100%;
   height:100vh;
   max-width: 900px;
-  max-height: 30px;
+  max-height: 50px;
   font-weight: bold;
   cursor: pointer;
-  div { 
+  .checkbox{ 
     display: flex;
-    align-items:center;
     padding:0px 8px;
     input{
       width: 22px;
@@ -118,7 +112,6 @@ export const Select = styled.div`
       &:checked + label{
             border-color: red;
         }
-    
     }
     label{
       cursor:pointer;
@@ -137,12 +130,12 @@ export const ButtonSection = styled.div`
       align-items:center;
       padding: 20px 0;
       margin: 20px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
       width: 100%;
       height:100vh;
       max-width: 210px;
-      max-height: 30px;
+      max-height: 50px;
       cursor: pointer;
       border: 2px solid black;
       border-radius: 5px;
@@ -153,9 +146,8 @@ export const ButtonSection = styled.div`
   }
   @media (max-width:1920px) {
     button{
-      max-width: 150px;
+      max-width: 210px;
       padding: 15px;
-      font-size: 15px;
     }
   }
 ` 
@@ -164,33 +156,21 @@ export const ModalSection = styled.section`
   flex-direction: column;
   justify-content:center;
   align-items:center;
-  max-width:800px;
-  max-height:200px;
+  position:absolute;
+  max-height:700px;
+  max-width:1000px;
   width:100%;
   height: 100dvh;
-  padding: 10px;
-  margin: 18px 0;
+  padding: 5px;
   border: 2px solid black;
   border-radius: 5px;
   background-color: black;
   .modal-article{
     width:100%;
+    max-width:1100px;
     height: 100dvh;
-    max-height: 200px;
     color:#fff;
     overflow-y: scroll;
-    background-color: black;
-    /* ::-webkit-scrollbar-thumb{
-        background-color: red;
-        border: 2px solid black;
-        cursor:pointer;
-      }
-      ::-webkit-scrollbar{
-        border: 2px solid black;
-        background-color:#fff;
-        color:black;
-        cursor:pointer;
-      } */
       section{
       display: flex;
       justify-content: space-between;
@@ -211,23 +191,6 @@ export const ModalSection = styled.section`
         cursor: pointer;
       }
     }
-  }:hover{
-    max-height:700px;
-    max-width:1000px;
-    position:absolute;
-    top: -0.8%;
-    transition: linear;
-
-    .modal-article{
-      max-height:90vh;
-      transition: max-height 1s linear;
-      button{
-        padding:5px 20px;
-      }
-    }
-  }
-  @media (max-width:1920px) {
-    max-width:700px;
   }
 `
 export const LabelChecked = styled.label`
@@ -236,16 +199,15 @@ export const LabelChecked = styled.label`
   justify-content: center;
   gap: 10px;
   margin-top: 3rem;
-  cursor: pointer;
 `;
-
-export const Switch = styled.div`
+export const Switch = styled.span`
 position: relative;
 width: 60px;
 height: 32px;
 background: #b3b3b3;
 border-radius: 32px;
 transition: 300ms all;
+cursor:pointer;
 &:before {
     transition: 300ms all;
   content: "";
@@ -259,7 +221,6 @@ transition: 300ms all;
   transform: translate(0, -50%);
 }
 `;
-
 export const InputChecked = styled.input`
   display: none;
   opacity: 0;
@@ -278,4 +239,27 @@ export const PreviewMessage = styled.div`
   height:20vh;
   width:100%;
   max-width:40rem;
+`;
+export const ButtonCloseModal = styled.div`
+  display: flex;
+  justify-content:start;
+  height:100dvh;
+  width:90%;
+  max-height:3rem;
+  button{
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    margin: 0 10px;
+    height:100dvh;
+    width:100%;
+    max-height:3rem;
+    /* max-width:3rem; */
+    font-size:18px;
+    cursor:pointer;
+  }:hover{
+    background-color:red;
+    color:#fff;
+    border: 2px solid #fff;
+  }
 `;

@@ -1,3 +1,4 @@
+
 import { useState,useEffect,FormEvent} from "react";
 import GlobalStyles from '../../GlobalStyles/GlobalStyles'
 
@@ -15,22 +16,27 @@ import {
   InputChecked, 
   Switch,
   PreviewMessage,
+  ButtonCloseModal,
 } from "./styles";
 import Navbar from "../../Components/Navbar";
 import React from 'react';
 import { api } from "../../Services/services";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export interface EquipmentsProps {
   id:string;
   name:string;
   status: string;
+  
 }
 
 export const AdminPage: React.FC = () => {
-  const [change, setChange] = useState(true);
+  const [equipmentsModal, setEquipmentsModal] = useState<EquipmentsProps[]>([]);
   const [equipments, setEquipments] = useState("");
   const [status, setStatus] = useState("");
-  const [equipmentsModal, setEquipmentsModal] = useState<EquipmentsProps[]>([]);
+  const [change, setChange] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
  useEffect(() => {
    loadEquipments()
@@ -44,12 +50,24 @@ export const AdminPage: React.FC = () => {
 
   async function handleSubmit(event:FormEvent) {
     event.preventDefault();
+    try {
+      const response = await api.post("/equipments", {
+        name: equipments,
+        status: status
+      })
+      setEquipmentsModal(allEquipments => [...allEquipments,response.data])
+      setEquipments("");
+      if (status == "data"){
+        toast.success("Data registrada com sucesso");
+      }else{
+        toast.success("Equipamento registrado ")
+      }
+      
+    } catch (error) {
+      console.log("Erro ao cadatrar" + error);
+        toast.error("Error");
+    }
 
-    const response = await api.post("/equipments", {
-      name: equipments,
-      status: status
-    })
-    setEquipmentsModal(allEquipments => [...allEquipments,response.data])
   }
 
   async function handleDelete(id : string) {
@@ -59,6 +77,7 @@ export const AdminPage: React.FC = () => {
           id:id
         }
       })
+      toast.success("Equipamento deletado com sucesso");
 
       const allEquipments = equipmentsModal.filter((equipments) => equipments.id !== id)
       setEquipmentsModal(allEquipments)
@@ -71,6 +90,7 @@ export const AdminPage: React.FC = () => {
   const handleChange = () =>{
     setChange(change => !change)
   }
+  console.log(openModal)
 
   return (
     <>
@@ -187,11 +207,15 @@ export const AdminPage: React.FC = () => {
             </Field>
             <ButtonSection>
               <button type="submit">Enviar</button>
+              <button type="button"onClick={() => setOpenModal(true)}>Modal</button>
             </ButtonSection>
             
           </Form>
-          {equipmentsModal.length > 0 ? (
+          {openModal ? (
             <ModalSection>
+              <ButtonCloseModal>
+                <button onClick={() => setOpenModal(!openModal)}>Sair</button>
+              </ButtonCloseModal>
               <article className="modal-article">
                 {equipmentsModal.map((item) => {
                   const toggleColor = (item: EquipmentsProps) => {
