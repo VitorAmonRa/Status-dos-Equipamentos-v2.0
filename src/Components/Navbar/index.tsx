@@ -18,6 +18,7 @@ const Navbar: React.FC = () => {
             <Button>Logout</Button>
           </DivNav>
         </MainDiv>
+        
     </>
   );
 }

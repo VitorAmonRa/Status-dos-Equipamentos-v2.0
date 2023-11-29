@@ -16,6 +16,7 @@ export const Burguer: React.FC = () => {
           </button>
         </IconDiv>
         <SideBar/>
+        
     </>
   )
 }

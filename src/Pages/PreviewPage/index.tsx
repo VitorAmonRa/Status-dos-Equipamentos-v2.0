@@ -6,6 +6,7 @@ interface EquipmentsProps {
   id:string;
   name:string;
   status: string;
+  
 }
 
 export const PreviewPage: React.FC = () => {

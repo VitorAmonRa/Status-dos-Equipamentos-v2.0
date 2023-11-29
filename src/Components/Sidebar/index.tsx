@@ -19,6 +19,7 @@ export const SideBar: React.FC = () => {
           <button onClick={handleSwitchAdmin}><GrUserAdmin/><span>Admin</span></button>
         </div>
       </Menu>
+      
     </>
   )
 }
